@@ -1,13 +1,23 @@
-import { useState } from 'react'
+import { BrowserRouter, Routes, Route, NavLink } from "react-router-dom"
+import TaskList from "./pagine/TaskList"
+import AddTask from "./pagine/AddTask"
 
 
 function App() {
 
 
   return (
-    <>
+    <BrowserRouter>
+      <nav className="navbar">
+        <NavLink to="/">Le mie Task</NavLink>
+        <NavLink to="/add">Aggiungi Task </NavLink>
+      </nav>
+      <Routes>
+        <Route path="/" element={<TaskList />} />
+        <Route path="/add" element={<AddTask />} />
+      </Routes>
+    </BrowserRouter>
 
-    </>
   )
 }
 
