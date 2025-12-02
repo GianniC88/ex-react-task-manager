@@ -59,8 +59,59 @@ body {
 
 .task-list {
   padding: 10px;
+  display: flex;
+  justify-content: center;
+}
+.task-list table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden; /* arrotondamento bordi visibile */
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.08);
+  max-width: 700px;
+}
+.task-list thead th {
+  background: rgba(0, 255, 255, 0.25);
+  color: #063d46;
+  font-weight: 700;
+  font-size: 0.95rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.task-list th,
+.task-list td {
+  padding: 12px 14px;
+  text-align: left;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  white-space: nowrap;
 }
 
+.task-list td:first-child {
+  font-weight: 600;
+  color: #222;
+}
+
+.task-list tbody tr:nth-child(even) {
+  background: #fafafa;
+}
+.task-list tbody tr:hover {
+  background: #eefcfc;
+}
 .add-task {
   padding: 10px;
+}
+
+.table-row {
+  gap: 12px;
+  align-items: flex-start;
+}
+
+@media (max-width: 600px) {
+  .task-list th,
+  .task-list td {
+    padding: 10px 12px;
+    font-size: 0.92rem;
+  }
 }
