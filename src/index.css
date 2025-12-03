@@ -3,6 +3,14 @@
   padding: 0;
   box-sizing: border-box;
 }
+.container {
+  max-width: 1020px;
+  padding: 10px;
+}
+.container h1 {
+  margin-top: 16px;
+  text-align: center;
+}
 
 body {
   font-size: 16px;
@@ -99,6 +107,27 @@ body {
 .task-list tbody tr:hover {
   background: #eefcfc;
 }
+
+.task-details {
+  max-width: 700px;
+  margin: 32px auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 24px 28px;
+  gap: 10px;
+}
+
+.task-details p {
+  margin-bottom: 8px;
+}
+.task-details h2 {
+  margin-bottom: 10px;
+  color: #0b0c0c;
+  font-size: 20px;
+  font-weight: 800;
+}
+
 .add-task {
   padding: 10px;
 }
@@ -137,6 +166,13 @@ td.done {
   color: red;
 }
 
+.error-detail {
+  font-size: 22px;
+  margin-top: 16px;
+  color: red;
+  display: flex;
+  justify-content: center;
+}
 @media (max-width: 600px) {
   .task-list th,
   .task-list td {
