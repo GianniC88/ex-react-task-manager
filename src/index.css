@@ -119,6 +119,11 @@ td.doing {
 td.done {
   background-color: rgb(58, 251, 58);
 }
+
+.form-add-task {
+  margin-top: 16px;
+  font-size: 16px;
+}
 @media (max-width: 600px) {
   .task-list th,
   .task-list td {
