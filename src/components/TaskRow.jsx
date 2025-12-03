@@ -1,14 +1,14 @@
 import { memo } from "react";
+import { Link } from "react-router-dom"
 
 
 const TaskRow = memo(({ task }) => {
-	const status = task.status.replace(" ", "").
-		toLowerCase();
+	const statusClsssName = task.status.replace(" ", "").toLowerCase();
 
 	return (
 		<tr>
-			<td>{task.title}</td>
-			<td className={status}>{task.status}</td>
+			<td><Link to={`/task/${task.id}`}>{task.title}</Link> </td>
+			<td className={statusClsssName}>{task.status}</td>
 			<td>{new Date(task.createdAt).toLocaleDateString()}</td>
 		</tr>
 	)
