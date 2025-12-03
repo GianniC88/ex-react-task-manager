@@ -1,9 +1,11 @@
-import { useState, useRef, useMemo } from "react"
+import { useState, useRef, useMemo, useContext } from "react"
+import { GlobalContext } from "../context/GlobalContext";
 import TaskList from "./TaskList";
 
 
 
 export default function AddTask() {
+	const { addTask } = useContext(GlobalContext)
 	const [title, setTitle] = useState("")
 	const descriptionRef = useRef()
 	const statusRef = useRef()
@@ -17,7 +19,7 @@ export default function AddTask() {
 		return ""
 	}, [title])
 
-	const handleSubmit = event => {
+	const handleSubmit = async event => {
 		event.preventDefault()
 		if (errorName)
 			return;
@@ -25,7 +27,17 @@ export default function AddTask() {
 		const newTask = {
 			title: title.trim(),
 			description: descriptionRef.current.value,
-			stato: statusRef.current.value
+			status: statusRef.current.value
+		}
+		try {
+			await addTask(newTask)
+			alert("Task confermata")
+			setTitle("")
+			descriptionRef.current.value = "";
+			statusRef.current.value = "";
+		} catch (error) {
+			alert(error.message)
+
 		}
 		console.log("Task aggiunta:", newTask)
 
