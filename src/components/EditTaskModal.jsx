@@ -4,41 +4,49 @@ import Modal from "./Modal"
 
 export default function EditTaskModal({ show, onClose, task, onSave }) {
 
-	const [editTask, setEditTask] = useState(task);
-	const formSubmitRef = useRef();
+	const [editedTask, setEditedTask] = useState(task);
+	const editFormRef = useRef()
+
+
 	const handleSubmit = e => {
 		e.preventDefault();
-		onSave(editTask)
+		onSave(editedTask)
 	}
 
 
 	const changeEditTask = (key, event) => {
-		setEditTask(prev => ({ ...prev, [key]: event.target.value }))
+		setEditedTask(prev => ({ ...prev, [key]: event.target.value }))
 	}
-	const { title, description, status } = editTask
+	const { title, description, status } = editedTask
+
+
+
 	return (
 		<Modal
-			title="modifica Task"
+			title="Modifica Task"
 			content={
-				<form ref={changeEditTask} onSubmit={handleSubmit}>
-					<label>
-						Nome Task
+				<form className="edit-task-form" ref={editFormRef} onSubmit={handleSubmit}>
+					<label className="form-field">
+						<span className="field-label">Nome Task</span>
 						<input
+							className="control"
 							type="text"
 							value={title}
 							onChange={e => changeEditTask('title', e)}
 						/>
 					</label>
-					<label >
-						Descrizione:
+					<label className="form-field">
+						<span className="field-label">Descrizione</span>
 						<textarea
+							className="control"
 							value={description}
 							onChange={e => changeEditTask('description', e)}
 						/>
 					</label>
-					<label >
-						Stato:
+					<label className="form-field" >
+						<span className="field-label">Stato</span>
 						<select
+							className="control"
 							value={status}
 							onChange={e => changeEditTask('status', e)}
 							required
@@ -53,8 +61,8 @@ export default function EditTaskModal({ show, onClose, task, onSave }) {
 			}
 			confirmText="Salva"
 			show={show}
-			onCLose={onClose}
-			onConfirm={() => formSubmitRef.current.requestSubmit()}
+			onClose={onClose}
+			onConfirm={() => editFormRef.current.requestSubmit()}
 		/>
 	)
 }

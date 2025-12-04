@@ -34,16 +34,17 @@ export default function useTasks() {
 		setTasks(prev => prev.filter(task => task.id !== taskID))
 	}
 
-	const updateTask = async upDateTask => {
-		const response = await fetch(`${VITE_API_URL}/tasks/${upDateTask.id}`, {
+	const updateTask = async updateTask => {
+		const response = await fetch(`${VITE_API_URL}/tasks/${updateTask.id}`, {
 			method: 'PUT',
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(upDateTask)
+			body: JSON.stringify(updateTask)
 		});
-		const { success, message, newTask } = await response.json()
+		const { success, message, task: newTask } = await response.json()
 		if (!success) throw new Error(message);
 
-		setTasks(prev => prev.map(oldTask => oldTask.id === newTask.id ? newTask : oldTask))
+		setTasks(prev => prev.map(
+			oldTask => oldTask.id === newTask.id ? newTask : oldTask))
 	}
 
 	return { tasks, addTask, removeTask, updateTask }

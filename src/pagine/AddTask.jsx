@@ -92,7 +92,7 @@ export default function AddTask() {
 							</select> */}
 						</div>
 						<div>
-							<button type="submit" disabled={errorName}>Aggiungi Task</button>
+							<button className="add-task-button" type="submit" disabled={errorName}>Aggiungi Task</button>
 						</div>
 					</form>
 				</div>

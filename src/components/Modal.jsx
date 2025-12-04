@@ -9,7 +9,7 @@ export default function Modal({ title, content, show, onClose,
 			<div className='modal-overlay'>
 				<div className='modal'>
 					<h2>{title}</h2>
-					<p>{content}</p>
+					{content}
 					<div className='modal-body'>
 						<button onClick={onClose}>Annulla</button>
 						<button onClick={onConfirm}>{confirmText}</button>
