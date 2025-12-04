@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useState, useMemo } from "react"
 import { GlobalContext } from "../context/GlobalContext"
 import TaskRow from "../components/taskRow"
 
@@ -20,6 +20,28 @@ export default function TaskList() {
 			setSortOrder(1)
 		}
 	}
+
+	const sortedTask = useMemo(() => {
+		let comparison
+		return [...tasks].sort((a, b) => {
+			if (sortBy === 'title') {
+				comparison = a.title.localeCompare(b.title)
+
+			} else if (sortBy === 'status') {
+				const statusOption = ["To do", "Doing", "Done"];
+				comparison = statusOption.indexOf(a.status) - statusOption.indexOf(b.status);
+			} else if (sortBy === 'createdAt') {
+				const dateA = new Date(a.createdAt).getTime()
+				const dateB = new Date(b.createdAt).getTime()
+				comparison = dateA - dateB
+
+
+			}
+			return comparison * sortOrder
+		})
+	}, [tasks, sortBy, sortOrder])
+
+
 	return (
 		<>
 
@@ -35,7 +57,7 @@ export default function TaskList() {
 							</tr>
 						</thead>
 						<tbody>
-							{tasks.map(task => (
+							{sortedTask.map(task => (
 								<TaskRow key={task.id} task={task} />
 							))}
 						</tbody>
