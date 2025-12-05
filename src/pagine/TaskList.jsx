@@ -11,7 +11,7 @@ export default function TaskList() {
 	const [sortBy, setSortBy] = useState('createdAt')
 	const [sortOrder, setSortOrder] = useState(1)
 	const sortIcon = sortOrder === 1 ? "↑" : "↓"
-	const [searchQuery, setSearchQuery] = useState()
+	const [searchQuery, setSearchQuery] = useState("")
 
 
 	const handleSort = (field) => {
@@ -23,25 +23,27 @@ export default function TaskList() {
 		}
 	}
 
-	const sortedTask = useMemo(() => {
+	const filteredAndSortedTask = useMemo(() => {
 		let comparison
-		return [...tasks].sort((a, b) => {
-			if (sortBy === 'title') {
-				comparison = a.title.localeCompare(b.title)
+		return [...tasks]
+			.filter(t => t.title.toLowerCase().includes(searchQuery.toLowerCase()))
+			.sort((a, b) => {
+				if (sortBy === 'title') {
+					comparison = a.title.localeCompare(b.title)
 
-			} else if (sortBy === 'status') {
-				const statusOption = ["To do", "Doing", "Done"];
-				comparison = statusOption.indexOf(a.status) - statusOption.indexOf(b.status);
-			} else if (sortBy === 'createdAt') {
-				const dateA = new Date(a.createdAt).getTime()
-				const dateB = new Date(b.createdAt).getTime()
-				comparison = dateA - dateB
+				} else if (sortBy === 'status') {
+					const statusOption = ["To do", "Doing", "Done"];
+					comparison = statusOption.indexOf(a.status) - statusOption.indexOf(b.status);
+				} else if (sortBy === 'createdAt') {
+					const dateA = new Date(a.createdAt).getTime()
+					const dateB = new Date(b.createdAt).getTime()
+					comparison = dateA - dateB
 
 
-			}
-			return comparison * sortOrder
-		})
-	}, [tasks, sortBy, sortOrder])
+				}
+				return comparison * sortOrder
+			})
+	}, [tasks, sortBy, sortOrder, searchQuery])
 
 
 	return (
@@ -66,7 +68,7 @@ export default function TaskList() {
 							</tr>
 						</thead>
 						<tbody>
-							{sortedTask.map(task => (
+							{filteredAndSortedTask.map(task => (
 								<TaskRow key={task.id} task={task} />
 							))}
 						</tbody>
