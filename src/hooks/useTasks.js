@@ -40,7 +40,31 @@ export default function useTasks() {
 			fetch(`${VITE_API_URL}/tasks/${taskId}`, { method: 'DELETE' })
 				.then(res => res.json())
 		)
+
+
 		const results = await Promise.allSettled(deleteRequests)
+
+		const fullfieldDeletions = []
+		const rejectedDeletions = []
+
+		results.forEach((result, index) => {
+			const taskId = taskIds[index]
+			if (result.status === 'fulfilled' && result.value.success) {
+				fullfieldDeletions.push()
+			} else {
+				rejectedDeletions.push(taskId)
+			}
+		})
+		if (fullfieldDeletions.length > 0) {
+			setTasks(prev => prev.filter(t => !fullfieldDeletions.includes(t.id)))
+		}
+
+		if (rejectedDeletions.length > 0) {
+			throw new Error(`Errore nell'eliminazione delle task con id:${rejectedDeletions.join(",")}`)
+		}
+
+
+
 		console.log(results)
 	}
 

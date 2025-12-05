@@ -37,8 +37,17 @@ export default function TaskList() {
 	// const debouneSearch = debounce(setSearchQuery,500);
 	// const memorizedDebounceSearch = useCallback(debouneSearch,[])
 	const debouncedSetSearchQuery = useCallback(debounce(setSearchQuery, 500), [])
-	const handleDelete = () => {
-		removeMultipleTask(selectedTaskIds)
+
+	const handleDelete = async () => {
+		try {
+			await removeMultipleTask(selectedTaskIds)
+			alert("Task eliminata con successo")
+			setSelectedTaskIds([])
+		} catch (error) {
+			console.error(error)
+			alert(error.message)
+
+		}
 	}
 
 	const handleSort = (field) => {
