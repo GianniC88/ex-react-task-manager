@@ -23,6 +23,17 @@ export default function TaskList() {
 	const sortIcon = sortOrder === 1 ? "↑" : "↓"
 	const [searchQuery, setSearchQuery] = useState("")
 
+	const [selectedTaskIds, setSelectedTaskIds] = useState([])
+
+	const toggleSelection = taskId => {
+		if (selectedTaskIds.includes(taskId)) {
+			setSelectedTaskIds(prev => prev.filter(id => id !== taskId))
+		} else {
+			setSelectedTaskIds(prev => [...prev, taskId])
+		}
+
+	}
+
 	// const debouneSearch = debounce(setSearchQuery,500);
 	// const memorizedDebounceSearch = useCallback(debouneSearch,[])
 	const debouncedSetSearchQuery = useCallback(debounce(setSearchQuery, 500), [])
@@ -76,6 +87,7 @@ export default function TaskList() {
 					<table >
 						<thead>
 							<tr className="table-row">
+								<th></th>
 								<th onClick={() => handleSort('title')}>Nome <span className="sort-arrow">{sortBy === "title" && sortIcon}</span></th>
 								<th onClick={() => handleSort('status')}>Status <span className="sort-arrow">{sortBy === "status" && sortIcon}</span></th>
 								<th onClick={() => handleSort('createdAt')}>Data di Creazione <span className="sort-arrow">{sortBy === "createdAt" && sortIcon}</span></th>
@@ -83,7 +95,12 @@ export default function TaskList() {
 						</thead>
 						<tbody>
 							{filteredAndSortedTask.map(task => (
-								<TaskRow key={task.id} task={task} />
+								<TaskRow
+									key={task.id}
+									task={task}
+									cecked={selectedTaskIds.includes(task.id)}
+									onToggle={toggleSelection}
+								/>
 							))}
 						</tbody>
 					</table>
