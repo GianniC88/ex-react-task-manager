@@ -34,6 +34,16 @@ export default function useTasks() {
 		setTasks(prev => prev.filter(task => task.id !== taskID))
 	}
 
+
+	const removeMultipleTask = async taskIds => {
+		const deleteRequests = taskIds.map(taskId =>
+			fetch(`${VITE_API_URL}/tasks/${taskId}`, { method: 'DELETE' })
+				.then(res => res.json())
+		)
+		const results = await Promise.allSettled(deleteRequests)
+		console.log(results)
+	}
+
 	const updateTask = async updateTask => {
 		const response = await fetch(`${VITE_API_URL}/tasks/${updateTask.id}`, {
 			method: 'PUT',
@@ -47,5 +57,5 @@ export default function useTasks() {
 			oldTask => oldTask.id === newTask.id ? newTask : oldTask))
 	}
 
-	return { tasks, addTask, removeTask, updateTask }
+	return { tasks, addTask, removeTask, updateTask, removeMultipleTask }
 }

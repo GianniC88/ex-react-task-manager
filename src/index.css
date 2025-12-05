@@ -155,6 +155,7 @@ body {
   text-align: center;
 }
 .action .modifica {
+  width: 35%;
   color: #fff;
   background: #3a8e27;
 }
@@ -163,7 +164,17 @@ body {
   background: #4e9261;
 }
 
+.dangerous-delete-ceck {
+  width: 55%;
+  background: #dc2626;
+  color: #fff;
+  margin-bottom: 10px;
+  font-size: 20px;
+  height: 10%;
+}
+
 .action .dangerous {
+  width: 35%;
   background: #dc2626;
   color: #fff;
 }

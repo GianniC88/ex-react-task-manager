@@ -15,7 +15,7 @@ function debounce(callback, delay) {
 
 
 export default function TaskList() {
-	const { tasks } = useContext(GlobalContext)
+	const { tasks, removeMultipleTask } = useContext(GlobalContext)
 	console.log('Tasks:', tasks)
 
 	const [sortBy, setSortBy] = useState('createdAt')
@@ -37,7 +37,9 @@ export default function TaskList() {
 	// const debouneSearch = debounce(setSearchQuery,500);
 	// const memorizedDebounceSearch = useCallback(debouneSearch,[])
 	const debouncedSetSearchQuery = useCallback(debounce(setSearchQuery, 500), [])
-
+	const handleDelete = () => {
+		removeMultipleTask(selectedTaskIds)
+	}
 
 	const handleSort = (field) => {
 		if (sortBy === field) {
@@ -84,6 +86,10 @@ export default function TaskList() {
 						onChange={e => debouncedSetSearchQuery(e.target.value)}
 
 					/>
+
+					{selectedTaskIds.length > 0 && (
+						<button onClick={handleDelete} className="dangerous-delete-ceck">Elimina task selezionate</button>
+					)}
 					<table >
 						<thead>
 							<tr className="table-row">
