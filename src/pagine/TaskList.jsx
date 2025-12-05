@@ -1,7 +1,17 @@
-import { useContext, useState, useMemo } from "react"
+import { useContext, useState, useMemo, useCallback } from "react"
 import { GlobalContext } from "../context/GlobalContext"
 import TaskRow from "../components/taskRow"
 
+//funzione debounce
+function debounce(callback, delay) {
+	let timer;
+	return (value) => {
+		clearTimeout(timer);
+		timer = setTimeout(() => {
+			callback(value)
+		}, delay)
+	}
+}
 
 
 export default function TaskList() {
@@ -12,6 +22,10 @@ export default function TaskList() {
 	const [sortOrder, setSortOrder] = useState(1)
 	const sortIcon = sortOrder === 1 ? "↑" : "↓"
 	const [searchQuery, setSearchQuery] = useState("")
+
+	// const debouneSearch = debounce(setSearchQuery,500);
+	// const memorizedDebounceSearch = useCallback(debouneSearch,[])
+	const debouncedSetSearchQuery = useCallback(debounce(setSearchQuery, 500), [])
 
 
 	const handleSort = (field) => {
@@ -55,8 +69,8 @@ export default function TaskList() {
 					<input className="search-query"
 						type="text"
 						placeholder="Cerca Task"
-						value={searchQuery}
-						onChange={e => setSearchQuery(e.target.value)}
+						//value={searchQuery}
+						onChange={e => debouncedSetSearchQuery(e.target.value)}
 
 					/>
 					<table >
