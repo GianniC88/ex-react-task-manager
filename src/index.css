@@ -58,6 +58,23 @@ body {
   box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px rgba(0, 0, 0, 0.15);
 }
 
+.task-list .search-query {
+  width: 100%;
+  max-width: 700px;
+  margin: 0 auto 16px;
+  padding: 10px 12px;
+  border: 1px solid #d6d6d6;
+  border-radius: 8px;
+  background: #fff;
+  font-size: 0.95rem;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.task-list .search-query:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
 .task-list {
   padding: 10px;
   display: flex;

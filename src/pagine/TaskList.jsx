@@ -11,6 +11,8 @@ export default function TaskList() {
 	const [sortBy, setSortBy] = useState('createdAt')
 	const [sortOrder, setSortOrder] = useState(1)
 	const sortIcon = sortOrder === 1 ? "↑" : "↓"
+	const [searchQuery, setSearchQuery] = useState()
+
 
 	const handleSort = (field) => {
 		if (sortBy === field) {
@@ -48,6 +50,13 @@ export default function TaskList() {
 			<h1>Sezione Task</h1>
 			<div className="task-list">
 				<div>
+					<input className="search-query"
+						type="text"
+						placeholder="Cerca Task"
+						value={searchQuery}
+						onChange={e => setSearchQuery(e.target.value)}
+
+					/>
 					<table >
 						<thead>
 							<tr className="table-row">
