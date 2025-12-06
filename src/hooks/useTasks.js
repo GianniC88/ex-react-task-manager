@@ -14,7 +14,14 @@ export default function useTasks() {
 			.catch(error => console.error(error))
 	}, [])
 
+
 	const addTask = async newTask => {
+		const taskExist = tasks.some(t => t.title.toLowerCase() === newTask.title.toLowerCase())
+		if (taskExist) {
+			throw new Error("Cambiare nome Task perchè già esistente!")
+		}
+
+
 		const response = await fetch(`${VITE_API_URL}/tasks`, {
 			method: 'POST',
 			headers: { "Content-Type": "application/json" },
@@ -50,7 +57,7 @@ export default function useTasks() {
 		results.forEach((result, index) => {
 			const taskId = taskIds[index]
 			if (result.status === 'fulfilled' && result.value.success) {
-				fullfieldDeletions.push()
+				fullfieldDeletions.push(taskId)
 			} else {
 				rejectedDeletions.push(taskId)
 			}
@@ -68,17 +75,24 @@ export default function useTasks() {
 		console.log(results)
 	}
 
-	const updateTask = async updateTask => {
-		const response = await fetch(`${VITE_API_URL}/tasks/${updateTask.id}`, {
+	const updateTask = async updatedTask => {
+		const taskWithSameTitle = tasks.find(t => t.title.toLowerCase() === updatedTask.title.toLowerCase())
+		if (taskWithSameTitle && taskWithSameTitle.id !== updatedTask.id) {
+			throw new Error("Cambiare nome Task perchè già esistente!")
+		}
+
+		const response = await fetch(`${VITE_API_URL}/tasks/${updatedTask.id}`, {
 			method: 'PUT',
 			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify(updateTask)
+			body: JSON.stringify(updatedTask)
 		});
 		const { success, message, task: newTask } = await response.json()
 		if (!success) throw new Error(message);
 
 		setTasks(prev => prev.map(
 			oldTask => oldTask.id === newTask.id ? newTask : oldTask))
+
+		return { success: true, message: "Task modificata correttamente" }
 	}
 
 	return { tasks, addTask, removeTask, updateTask, removeMultipleTask }

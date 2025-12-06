@@ -3,6 +3,7 @@ import { useContext, useState } from "react"
 import { GlobalContext } from "../context/GlobalContext"
 import Modal from "../components/Modal";
 import EditTaskModal from "../components/EditTaskModal";
+import dayjs from "dayjs";
 
 export default function TaskDetail() {
 	const { id } = useParams();
@@ -35,9 +36,11 @@ export default function TaskDetail() {
 
 	const handleUpdate = async (update) => {
 		try {
+			const result = await updateTask(update)
 			await updateTask(update)
+			alert(result.message)
 			setShowEditModal(false)
-		} catch {
+		} catch (error) {
 			console.error(error.message)
 			alert(error.message)
 		}
@@ -54,7 +57,8 @@ export default function TaskDetail() {
 					<h2>{task.title}</h2>
 					<p><strong>Descrzione</strong>{task.description}</p>
 					<p><strong>Stato:</strong>{task.status}</p>
-					<p><strong>Data di creazione:</strong>{new Date(task.createdAt).toLocaleDateString()}</p>
+
+					<p><strong>Data di creazione:</strong>{dayjs(task.createdAt).format("DD / MM / YYYY")}</p>
 					<div className="action">
 						<button className="modifica" onClick={() => setShowEditModal(true)}>Modifica</button>
 						<button className="dangerous" onClick={() => setShowDeleteModal(true)}>Elimina Task</button>
